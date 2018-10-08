@@ -53,6 +53,8 @@ Require authentication for every request unless the path is index.html.
 app.use(requiresAuth.unless({ path: ['/index.html', '/'] }))
 ```
 
+> **NOTICE: ** sub path config only checks method **and** path 
+
 Avoid a fstat for request to routes doesnt end with a given extension.
 
 ```javascript

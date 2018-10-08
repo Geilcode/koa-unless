@@ -34,6 +34,36 @@ describe('koa-unless', function() {
     });
   });
 
+  describe('with PATH(recursive) exception', function () {
+    it('should call the middleware in GET when options.path is recursive request', function (done) {
+      var app = new Koa();
+
+      app.use(middleware.unless({
+        path: [
+          { path: ['/foo'], method: ['POST'] }
+        ]
+      }));
+
+      request(app.listen())
+        .get('/foo')
+        .expect(200, done);
+    });
+
+    it('should not call the middleware in POST when options.path is recursive', function (done) {
+      var app = new Koa();
+
+      app.use(middleware.unless({
+        path: [
+          { path: ['/foo'], method: ['POST'] }
+        ]
+      }));
+
+      request(app.listen())
+        .post('/foo')
+        .expect(404, done);
+    });
+  });
+
   describe('with PATH (regexp) exception', function() {
     it('should not call the middleware when the regex match', function(done) {
       var app = new Koa();
